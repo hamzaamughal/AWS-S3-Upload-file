@@ -8,9 +8,10 @@ const uuid = require('uuid').v4;
 const app = express();
 const port = process.env.PORT || 5000;
 
+app.set('view engine', 'ejs')
 
 app.get("/", (req, res) => {
-    res.send('hello world')
+    res.render("index")
 })
 
 app.listen(port, () => {
