@@ -37,7 +37,7 @@ app.post('/upload', upload, (req, res) => {
 
     const params = {
         Bucket: process.env.AWS_BUCKET_NAME,
-        Key: `${uuid}.${fileType}`,
+        Key: `${uuid()}.${fileType}`,
         Body: req.file.buffer
     }
 
@@ -49,7 +49,7 @@ app.post('/upload', upload, (req, res) => {
     })
     let presignedGetUrl = s3.getSignedUrl("getObject", {
         Bucket: process.env.AWS_BUCKET_NAME,
-        Key: `${uuid}.${fileType}`,
+        Key: `${uuid()}.${fileType}`,
         Expires: 1000 * 6 //time to expire
     })
     console.log(presignedGetUrl, "presignedGetUrl");
