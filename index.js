@@ -30,8 +30,29 @@ app.get("/", (req, res) => {
     res.render("index")
 })
 
-app.post('/upload', (req, res) => {
 
+app.post('/upload', upload, (req, res) => {
+    let myFile = req.file.originalname.split(".")
+    const fileType = myFile[myFile.length - 1]
+
+    const params = {
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: `${uuid}.${fileType}`,
+        Body: req.file.buffer
+    }
+
+    s3.upload(params, (err, data) => {
+        if (err) {
+            res.status(500).send(err)
+        }
+        res.status(200).send(data)
+    })
+    let presignedGetUrl = s3.getSignedUrl("getObject", {
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: `${uuid}.${fileType}`,
+        Expires: 1000 * 6 //time to expire
+    })
+    console.log(presignedGetUrl, "presignedGetUrl");
 })
 
 app.listen(port, () => {
