@@ -56,5 +56,5 @@ app.post('/upload', upload, (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`server is up at ${port}`);
+    console.log(`server is up and running at ${port}`);
 })
